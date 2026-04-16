@@ -1,40 +1,582 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kusini Tours and Safaris</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>Mwandalo Convenient Store</title>
     <style>
+        /* CSS Variables */
+        :root {
+            --primary-yellow: #FFB300;
+            --primary-red: #D32F2F;
+            --dark-text: #222;
+            --light-bg: #f4f4f4;
+            --white: #ffffff;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--dark-text);
         }
-        h1, h2, h3, .font-serif {
-            font-family: 'Playfair+Display', serif;
+
+        /* --- NAVIGATION --- */
+        nav {
+            background-color: var(--white);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        .bg-dark-green { background-color: #004d00; }
-        .text-dark-green { color: #004d00; }
-        .border-dark-green { border-color: #004d00; }
-        .bg-kusini-red { background-color: #cc0000; }
-        .text-kusini-red { color: #cc0000; }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--dark-text);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--primary-red);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-text);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-red);
+        }
+
+        .cart-btn {
+            background-color: var(--primary-red);
+            color: var(--white);
+            padding: 0.6rem 1.2rem;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cart-btn:hover {
+            background-color: #b71c1c;
+            transform: scale(1.05);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            background-color: var(--primary-yellow);
+            text-align: center;
+            padding: 5rem 2rem;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 12px solid var(--primary-red);
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            text-transform: uppercase;
+            font-weight: 900;
+            color: var(--dark-text);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .hero p.tagline {
+            font-family: 'Brush Script MT', 'Lucida Handwriting', cursive;
+            font-size: 2.8rem;
+            color: var(--dark-text);
+            margin-bottom: 2rem;
+        }
+
+        .address-badge {
+            background-color: var(--primary-red);
+            color: var(--white);
+            display: inline-block;
+            padding: 1rem 3rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            border-radius: 50px;
+            text-transform: uppercase;
+            box-shadow: var(--shadow);
+        }
+
+        /* --- LAYOUT UTILS --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            color: var(--dark-text);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-red);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        /* --- ABOUT US --- */
+        .about-section {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 3rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            margin-top: -3rem;
+            position: relative;
+            z-index: 10;
+        }
         
-        /* Custom scrollbar for product slider */
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
+        .about-section p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #555;
+            max-width: 800px;
+            margin: 0 auto;
         }
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+
+        /* --- CATEGORIES --- */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .category-card {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            text-align: center;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            border-bottom: 4px solid var(--primary-yellow);
+        }
+
+        .category-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .category-card h3 {
+            padding: 1rem;
+            font-size: 1.2rem;
+        }
+
+        /* --- PRODUCTS GRID --- */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.12);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--dark-text);
+        }
+
+        .product-brand {
+            font-size: 0.9rem;
+            color: #777;
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            color: var(--primary-red);
+            font-size: 1.4rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            margin-top: auto;
+        }
+
+        .add-to-cart-btn {
+            background-color: var(--primary-yellow);
+            color: var(--dark-text);
+            border: none;
+            padding: 0.8rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: var(--transition);
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: var(--dark-text);
+            color: var(--primary-yellow);
+        }
+
+        /* --- SPECIAL OFFERS --- */
+        .offers-banner {
+            background: linear-gradient(rgba(211, 47, 47, 0.9), rgba(211, 47, 47, 0.9)), url('https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=1200&q=80') center/cover;
+            color: var(--white);
+            text-align: center;
+            padding: 4rem 2rem;
+            border-radius: 10px;
+            margin: 2rem auto;
+            max-width: 1200px;
+        }
+
+        .offers-banner h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-yellow);
+        }
+
+        .offers-banner p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-outline {
+            border: 2px solid var(--primary-yellow);
+            color: var(--primary-yellow);
+            background: transparent;
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-yellow);
+            color: var(--dark-text);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--dark-text);
+            color: var(--white);
+            padding: 4rem 5% 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #444;
+            padding-bottom: 2rem;
+        }
+
+        .footer-col h3 {
+            color: var(--primary-yellow);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .footer-col p, .footer-col a {
+            color: #bbb;
+            text-decoration: none;
+            line-height: 1.8;
+            display: block;
+        }
+
+        .footer-col a:hover {
+            color: var(--primary-yellow);
+        }
+
+        .newsletter input {
+            padding: 0.8rem;
+            width: 70%;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            outline: none;
+        }
+
+        .newsletter button {
+            padding: 0.8rem;
+            width: 30%;
+            border: none;
+            background: var(--primary-red);
+            color: white;
+            font-weight: bold;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+
+        .copyright {
+            text-align: center;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .nav-links { display: none; } /* Hide links on mobile for simplicity in this demo */
+            .hero h1 { font-size: 2.5rem; }
+            .hero p.tagline { font-size: 2rem; }
+            .address-badge { font-size: 1rem; padding: 0.8rem 1.5rem; }
+            .newsletter input { width: 100%; border-radius: 4px; margin-bottom: 10px; }
+            .newsletter button { width: 100%; border-radius: 4px; }
         }
     </style>
-<script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.2.4",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react/": "https://esm.sh/react@^19.2.4/"
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="#" class="logo">MWANDALO<span>.</span></a>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#categories">Departments</a></li>
+            <li><a href="#products">Store</a></li>
+            <li><a href="#offers">Offers</a></li>
+        </ul>
+        <button class="cart-btn" onclick="viewCart()">
+            🛒 Cart (<span id="cart-count">0</span>)
+        </button>
+    </nav>
+
+    <!-- Hero Banner -->
+    <section class="hero" id="home">
+        <h1>Mwandalo Convenient Store</h1>
+        <p class="tagline">Karibu ujipatie mahitaji yako ya kila siku hapa</p>
+        <div class="address-badge">
+            Mtaa wa Mazula - Mazula Street
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <div class="container" style="padding-top: 0;" id="about">
+        <div class="about-section">
+            <h2 style="margin-bottom: 1rem; color: var(--dark-text);">Your Neighborhood Daily Stop</h2>
+            <p>Located in the heart of Mazula Street, Mwandalo Convenient Store provides top-quality groceries, fresh produce, beverages, stationery, and cleaning supplies. We stock trusted brands like Azam, Nido, Africafé, and Coca-Cola to ensure you get exactly what your home needs.</p>
+        </div>
+    </div>
+
+    <!-- Shop by Category -->
+    <section class="container" style="background-color: var(--white);" id="categories">
+        <h2 class="section-title">Shop by Department</h2>
+        <div class="category-grid">
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=500&q=80" alt="Groceries & Produce">
+                <h3>Groceries & Produce</h3>
+            </div>
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80" alt="Beverages">
+                <h3>Beverages</h3>
+            </div>
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=500&q=80" alt="Dairy & Pantry">
+                <h3>Dairy & Pantry</h3>
+            </div>
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1583485088034-697b5a624baf?auto=format&fit=crop&w=500&q=80" alt="Stationery">
+                <h3>Stationery</h3>
+            </div>
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1585421514738-01798e348b17?auto=format&fit=crop&w=500&q=80" alt="Cleaning Supplies">
+                <h3>Cleaning Supplies</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="container" id="products">
+        <h2 class="section-title">Featured Daily Essentials</h2>
+        
+        <div class="products-grid">
+            <!-- Product 1: Rice -->
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80" alt="Mbeya Rice" class="product-img">
+                <div class="product-info">
+                    <div class="product-title">Premium Mbeya Rice</div>
+                    <div class="product-brand">25kg Sack</div>
+                    <div class="product-price">TZS 65,000</div>
+                    <button class="add-to-cart-btn" onclick="addToCart(this)">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Product 2: Sugar -->
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1581441363689-1f3c3c414635?auto=format&fit=crop&w=600&q=80" alt="Azam Sugar" class="product-img">
+                <div class="product-info">
+                    <div class="product-title">Azam Brown Sugar</div>
+                    <div class="product-brand">1kg Pack</div>
+                    <div class="product-price">TZS 3,500</div>
+                    <button class="add-to-cart-btn" onclick="addToCart(this)">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Product 3: Flour -->
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1506458961255-571f40df5aad?auto=format&fit=crop&w=600&q=80" alt="Maize Flour" class="product-img">
+                <div class="product-info">
+                    <div class="product-title">Excellent Maize Flour</div>
+                    <div class="product-brand">Super Sembe - 5kg</div>
+                    <div class="product-price">TZS 15,000</div>
+                    <button class="add-to-cart-btn" onclick="addToCart(this)">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Product 4: Milk Powder -->
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=600&q=80" alt="Milk Powder" class="product-img">
+                <div class="product-info">
+                    <div class="product-title">Nido Fortified Milk Powder</div>
+                    <div class="product-brand">Nestlé - 400g</div>
+                    <div class="product-price">TZS 12,000</div>
+                    <button class="add-to-cart-btn" onclick="addToCart(this)">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Product 5: Soda -->
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1554866585-cd94860890b7?auto=format&fit=crop&w=600&q=80" alt="Coca-Cola" class="product-img">
+                <div class="product-info">
+                    <div class="product-title">Assorted Sodas</div>
+                    <div class="product-brand">Coca-Cola, Sprite, Fanta (500ml)</div>
+                    <div class="product-price">TZS 1,000</div>
+                    <button class="add-to-cart-btn" onclick="addToCart(this)">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Product 6: Fresh Produce -->
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1518843875459-f738682238a6?auto=format&fit=crop&w=600&q=80" alt="Fresh Produce" class="product-img">
+                <div class="product-info">
+                    <div class="product-title">Fresh Veggie Basket</div>
+                    <div class="product-brand">Tomatoes, Greens, Peppers</div>
+                    <div class="product-price">TZS 5,000</div>
+                    <button class="add-to-cart-btn" onclick="addToCart(this)">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Product 7: Coffee -->
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=600&q=80" alt="Coffee" class="product-img">
+                <div class="product-info">
+                    <div class="product-title">Africafé Instant Coffee</div>
+                    <div class="product-brand">Pure Coffee - 100g</div>
+                    <div class="product-price">TZS 9,500</div>
+                    <button class="add-to-cart-btn" onclick="addToCart(this)">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Product 8: Stationery -->
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1531346878377-a541e4a115fc?auto=format&fit=crop&w=600&q=80" alt="Stationery" class="product-img">
+                <div class="product-info">
+                    <div class="product-title">Multi-Use A4 Paper Box</div>
+                    <div class="product-brand">Office & School Supplies</div>
+                    <div class="product-price">TZS 18,000</div>
+                    <button class="add-to-cart-btn" onclick="addToCart(this)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Special Offers Section -->
+    <section id="offers" style="padding: 0 2rem;">
+        <div class="offers-banner">
+            <h2>Weekend Super Sale!</h2>
+            <p>Get up to 15% off on all bulk grocery purchases (Rice, Flour, Sugar) this weekend.</p>
+            <button class="btn-outline" onclick="document.getElementById('products').scrollIntoView()">Shop the Sale Now</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>MWANDALO STORE</h3>
+                <p>Karibu ujipatie mahitaji yako ya kila siku hapa. Providing Mazula Street with top-quality daily essentials.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <a href="#home">Home</a>
+                <a href="#about">About Us</a>
+                <a href="#products">Shop Online</a>
+                <a href="#offers">Special Offers</a>
+            </div>
+            <div class="footer-col">
+                <h3>Contact Info</h3>
+                <p>📍 Mtaa wa Mazula - Mazula Street</p>
+                <p>📞 +255 123 456 789</p>
+                <p>🕒 Mon - Sun: 7:00 AM - 10:00 PM</p>
+            </div>
+            <div class="footer-col">
+                <h3>Newsletter</h3>
+                <p style="margin-bottom: 10px;">Subscribe to receive weekly offers.</p>
+                <div class="newsletter" s    "react/": "https://esm.sh/react@^19.2.4/"
   }
 }
 </script>
